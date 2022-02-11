@@ -16,8 +16,30 @@ mongoose
     return Recipe.deleteMany()
   })
   .then(() => {
-    // Run your code here, after you have insured that the connection was made
+    const recipe1 = {
+      title: "Feijoada",
+      level: "Easy Peasy",
+      ingredients: "beans",
+      cuisine: "Portuguese",
+      dishType: "breakfast",
+      image: "https://www.pingodoce.pt/wp-content/uploads/2018/11/feijoada-legumes.jpg",
+      duration: "20",
+      creator: "tuga",
+    }
+    console.log(recipe1);
+    return Recipe.create(recipe1);
   })
+  .then(() => Recipe.insertMany(data))
+  .then(allrecipes => console.log(`allrecipes: ${allrecipes}`))
+  .then(() =>
+    Recipe.findOneAndUpdate(
+      { title: 'Rigatoni alla Genovese' },
+      { duration: 100 }
+    )
+  )
+  .then(() => console.log('Rigatoni alla genovese updated!'))
+  .then(() => Recipe.deleteOne({ title: 'Carrot Cake' }))
+  .then(() => mongoose.connection.close())
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
